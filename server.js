@@ -43,10 +43,18 @@ app.post('/shopping-list', jsonParser, (req,res) => {
   if(!req.body.name || !req.body.budget){
     return res.status(400).send("missing shopping item name or budget");
   }
-
   const item = ShoppingList.create(req.body.name, req.body.budget);
   res.status(201).json(item);
+})
 
+app.delete('/shopping-list/:id', jsonParser, (req,res) => {
+  if(!ShoppingList.items[req.params.id]){
+    return res.status(400).send("invalid id or missing '/id' in url");
+  }
+  const item = ShoppingList.items[req.params.id];
+  console.log("deleting item: ", item);
+  ShoppingList.delete(item.id);
+  res.status(204).end();
 })
 
 app.get('/recipes',jsonParser, (req,res) => {
@@ -60,6 +68,16 @@ app.post('/recipes', jsonParser, (req,res)=> {
   }
   const item = Recipes.create(req.body.name, req.body.ingredients);
   res.status(201).json(item);
+})
+
+app.delete('/recipes/:id', jsonParser, (req,res) => {
+  if(!Recipes.items[req.params.id]){
+    res.status(400).send("invalid or missing id");
+  }
+  const item = Recipes.items[req.params.id];
+  console.log("DELETING: ", item);
+  Recipes.delete(req.params.id);
+  res.status(201).end();
 })
 
 app.listen(process.env.PORT || 8080, () => {
