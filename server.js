@@ -55,6 +55,14 @@ app.delete('/shopping-list/:id', jsonParser, (req,res) => {
   console.log("deleting item: ", item);
   ShoppingList.delete(item.id);
   res.status(204).end();
+});
+
+app.put('/shopping-list/:id', jsonParser, (req,res) => {
+  if(!ShoppingList.items[req.params.id] || req.params.id !== req.body.id){
+    res.status(400).send("ERROR: either your item id in url does not match the id in request body or the id does not exist");
+  }
+  ShoppingList.update(req.body);
+  res.status(204).end();
 })
 
 app.get('/recipes',jsonParser, (req,res) => {
@@ -78,6 +86,14 @@ app.delete('/recipes/:id', jsonParser, (req,res) => {
   console.log("DELETING: ", item);
   Recipes.delete(req.params.id);
   res.status(201).end();
+})
+
+app.put('/recipes/:id', jsonParser, (req,res) => {
+  if(!Recipes.items[req.params.id] || req.params.id !== req.body.id){
+    res.status(400).send("ERROR: either the id in url is wrong or that id does not match the id in request body");
+  }
+  Recipes.update(req.body);
+  res.status(204).end();
 })
 
 app.listen(process.env.PORT || 8080, () => {
