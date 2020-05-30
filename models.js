@@ -47,6 +47,7 @@ const ShoppingList = {
   }
 };
 
+/*This function returns an instance of a ShoppingList with an empty item{} key. */
 function createShoppingList() {
   const storage = Object.create(ShoppingList);
   storage.items = {};
@@ -92,6 +93,6 @@ function createRecipes() {
 }
 
 module.exports = {
-  ShoppingList: createShoppingList(),
-  Recipes: createRecipes()
+  ShoppingList: createShoppingList(), //exports an instance of a ShoppingList object
+  Recipes: createRecipes() //exports new Recepies object modeled after the Recepies() blueprint above that contains all the CRUD operations.
 }
